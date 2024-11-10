@@ -54,7 +54,9 @@ router.post('/login', async(req, res)=>{
             if(isMatch){
                 // Generate JWT
                 const token = jwt.sign({ id: user.id , email: user.email}, process.env.JWT_SECRET, { expiresIn: '1h'});
-                res.json({ message: 'successful', token});
+                console.log(user);
+                const usr_id = user.id;
+                res.json({ message: 'successful', token, usr_id});
             }else{
                 res.status(401).send('Contraseña incorrecta');
             }

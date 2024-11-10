@@ -4,6 +4,8 @@ import http from 'http';
 import cors from 'cors';
 import routes from './routes/routes';
 
+const socketConfig = require('./services/socket');
+
 // Create server
 const app = express();
 
@@ -34,18 +36,11 @@ var port = 2020;
 app.use('/api', routes);
 
 
+socketConfig(io);
+
+
 httpServer.listen(port, ()=>{
     console.log('Servidor WebSocket escuchando en puerto:' + port);
 })
 
-io.on('connect',(socket)=>{
-    console.log("Nueva conexión");
-    socket.emit('Nueva conexion', { msg: 'Bienvenido al servidor WebSocket!' });
-
-    socket.on('ab', (data) => {
-        console.log('Mensaje recibido:' + JSON.stringify(data));
-    });
-
-
-})
 
